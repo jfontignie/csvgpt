@@ -1,3 +1,6 @@
+"""
+Script test for csvgpt
+"""
 import logging
 from unittest import TestCase
 
@@ -8,11 +11,21 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+
 class TestCSVGpt(TestCase):
     def test_run_simple(self):
-        gpt = CSVGpt("../resources/sample.csv","../sandbox/out.csv", overwrite=True)
+        """
+        Try to answer to colonne $question
+        :return: nothing
+        """
+        gpt = CSVGpt("../resources/sample.csv", "../sandbox/simple.csv", overwrite=True)
         gpt.run("Answer to the question '$question'")
 
     def test_run_complex(self):
-        gpt = CSVGpt("../resources/sample.csv","../sandbox/out.csv", overwrite=True)
-        gpt.run("concatene $col1 avec $col2")
+        """
+        Try to append to the append question
+        :return: nothing
+        """
+        gpt = CSVGpt("../resources/sample.csv", "../sandbox/complex.csv", overwrite=True)
+        gpt.run("concatene '$col1' avec '$col2'",
+                "ne répond qu'à la question sans rajouter de texte")
