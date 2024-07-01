@@ -8,6 +8,12 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 def ask_chatgpt(text: str, role) -> str:
+    """
+    Asks chatgpt with @text
+    :param text: The text to ask to chatgpt
+    :param role: The role to prepare chatgpt. It can ben empty
+    :return: the answer from chatgpt or the query sent if simulation is true
+    """
     chat_gpt = ChatGPT(role)
     chat_gpt.add_user_message(text)
     return chat_gpt.evaluate()
