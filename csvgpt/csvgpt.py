@@ -1,3 +1,6 @@
+"""
+Module providing CSV parsing and answering to questions from chatgpt
+"""
 import csv
 import logging
 import os.path

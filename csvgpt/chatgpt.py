@@ -1,3 +1,6 @@
+"""
+Module providing chatgpt helper
+"""
 import logging
 
 from openai import OpenAI
