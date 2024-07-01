@@ -1,8 +1,9 @@
 import csv
+import logging
 import os.path
 from string import Template
 
-from chatgpt import ChatGPT, ask_chatgpt
+from csvgpt.chatgpt import ask_chatgpt
 
 
 class CSVGpt:
@@ -22,6 +23,7 @@ class CSVGpt:
         with open(self.src, 'r', newline='') as csvfile:
             reader = csv.reader(csvfile)
             header = next(reader)
+            logging.info(f"Header: {header}")
             template = Template(prompt)
 
             for row in reader:
@@ -29,7 +31,11 @@ class CSVGpt:
                 for i, col in enumerate(header):
                     substitution[col] = row[i]
 
-                answer = ask_chatgpt(template.substitute(substitution), intro)
+                logging.info(f"Substitution: {substitution}")
+                substitute = template.substitute(substitution)
+                answer = ask_chatgpt(substitute, intro)
+                logging.info(f"'{substitute}'->'{answer}'")
+
                 answers.append(answer)
 
         with open(self.dst, 'w', newline='') as csvfile:

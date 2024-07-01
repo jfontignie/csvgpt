@@ -1,6 +1,11 @@
+import logging
+
 from openai import OpenAI
 
 from csvgpt.config import Config
+
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 
 def ask_chatgpt(text: str, role) -> str:
     chat_gpt = ChatGPT(role)
