@@ -23,7 +23,13 @@ def ask_chatgpt(text: str, role) -> str:
 
 
 class ChatGPT:
+    """
+    Helper class for chatgpt
+    """
     def __init__(self, role):
+        """
+        :param role: of the gpt to answer
+        """
         self.simulate = Config.get_instance().get('openai', 'simulate')
         self.client = OpenAI(
             api_key=Config.get_instance().get('openai', 'api_key'),
@@ -32,9 +38,17 @@ class ChatGPT:
                           "content": role}]
 
     def add_user_message(self, message: str):
+        """
+        the message to add
+        :param message:
+        :return: nothing
+        """
         self.messages.append({"role": "user", "content": message})
 
     def evaluate(self):
+        """
+        :return: the answer of chatgpt or the query sent if simulation is true
+        """
         if self.simulate:
             return str(self.messages)
 
