@@ -36,12 +36,12 @@ class CSVGpt:
         :param intro: the intro if needed
         :return: nothing but create the file
         """
-        with open(self.dst, 'w', newline='') as dst_file:
+        with open(self.dst, 'w', newline='',encoding="utf-8") as dst_file:
 
-            with open(self.src, 'r', newline='') as csvfile:
+            with open(self.src, 'r', newline='',encoding="utf-8") as csvfile:
                 reader = csv.reader(csvfile)
                 header = next(reader)
-                logging.info(f"Header: {header}")
+                logging.info("Header: %s",header)
                 template = Template(prompt)
 
                 for row in reader:

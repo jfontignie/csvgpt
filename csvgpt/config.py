@@ -9,7 +9,9 @@ VERSION = 0.1
 
 
 class Config:
-
+    """
+    Class configuration for CSVGPT
+    """
     @staticmethod
     def get_instance():
         """
@@ -31,7 +33,7 @@ class Config:
         """
         :param output: load the yaml file
         """
-        with open(output, 'r') as f:
+        with open(output, 'r', encoding="utf-8") as f:
             self.data = yaml.safe_load(f)
 
     def get(self, section, key, default_value=None):
