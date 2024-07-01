@@ -10,7 +10,16 @@ from csvgpt.chatgpt import ask_chatgpt
 
 
 class CSVGpt:
-    def __init__(self, src: str, dst: str, overwrite: bool=False, delimiter: str= ','):
+    """
+    The help class
+    """
+    def __init__(self, src: str, dst: str, overwrite: bool = False, delimiter: str = ','):
+        """
+        :param src: source file
+        :param dst: destination file
+        :param overwrite: overwrite existing file if it already exists
+        :param delimiter: the delimiter used in the CSV file
+        """
         self.delimiter = delimiter
         self.src = src
         self.dst = dst
@@ -22,30 +31,28 @@ class CSVGpt:
             raise FileExistsError(f"'{dst}' already exists")
 
     def run(self, prompt: str, intro: str = ""):
-        answers = []
-        with open(self.src, 'r', newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            header = next(reader)
-            logging.info(f"Header: {header}")
-            template = Template(prompt)
+        """
+        :param prompt: the prompt to ask to chatgpt with $col to templatize
+        :param intro: the intro if needed
+        :return: nothing but create the file
+        """
+        with open(self.dst, 'w', newline='') as dst_file:
 
-            for row in reader:
-                substitution = {}
-                for i, col in enumerate(header):
-                    substitution[col] = row[i]
+            with open(self.src, 'r', newline='') as csvfile:
+                reader = csv.reader(csvfile)
+                header = next(reader)
+                logging.info(f"Header: {header}")
+                template = Template(prompt)
 
-                logging.info(f"Substitution: {substitution}")
-                substitute = template.substitute(substitution)
-                answer = ask_chatgpt(substitute, intro)
-                logging.info(f"'{substitute}'->'{answer}'")
+                for row in reader:
+                    substitution = {}
+                    for i, col in enumerate(header):
+                        substitution[col] = row[i]
 
-                answers.append(answer)
+                    logging.info(f"Substitution: {substitution}")
+                    substitute = template.substitute(substitution)
+                    answer = ask_chatgpt(substitute, intro)
+                    logging.info(f"'{substitute}'->'{answer}'")
 
-        with open(self.dst, 'w', newline='') as csvfile:
-            for answer in answers:
-                csvfile.write(answer)
-                csvfile.write('\n')
-
-
-
-
+                    dst_file.write(answer)
+                    dst_file.write("\n")
