@@ -13,6 +13,9 @@ logging.basicConfig(
 
 
 class TestCSVGpt(TestCase):
+    """
+    Test class
+    """
     def test_run_simple(self):
         """
         Try to answer to colonne $question
