@@ -49,10 +49,10 @@ class CSVGpt:
                     for i, col in enumerate(header):
                         substitution[col] = row[i]
 
-                    logging.info(f"Substitution: {substitution}")
+                    logging.info("Substitution: %s",substitution)
                     substitute = template.substitute(substitution)
                     answer = ask_chatgpt(substitute, intro)
-                    logging.info(f"'{substitute}'->'{answer}'")
+                    logging.info("'%s'->'%s'",substitute,answer)
 
                     dst_file.write(answer)
                     dst_file.write("\n")

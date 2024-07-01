@@ -22,7 +22,7 @@ parser.add_argument('--prompt', help="Prompt query to perform. Column name start
 parser.add_argument("--delimiter", help="Sets the delimiter",required=False,default=",")
 
 args = parser.parse_args()
-logging.info(f"Prompt is: {args.prompt}")
+logging.info("Prompt is: %s",args.prompt)
 
 csv = CSVGpt(args.csv,args.output, args.overwrite, args.delimiter)
 csv.run(args.prompt, args.intro)
