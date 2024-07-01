@@ -1,3 +1,6 @@
+"""
+Module providing the command line of csvhpt
+"""
 import argparse
 import logging
 
