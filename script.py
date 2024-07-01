@@ -1,5 +1,5 @@
 """
-Module providing the command line of csvhpt
+Module providing the command line of csvgpt
 """
 import argparse
 import logging
