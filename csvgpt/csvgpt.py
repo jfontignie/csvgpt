@@ -4,6 +4,7 @@ Module providing CSV parsing and answering to questions from chatgpt
 import csv
 import logging
 import os.path
+import pandas as pd
 from string import Template
 
 from csvgpt.chatgpt import ask_chatgpt
@@ -36,23 +37,16 @@ class CSVGpt:
         :param intro: the intro if needed
         :return: nothing but create the file
         """
-        with open(self.dst, 'w', newline='',encoding="utf-8") as dst_file:
+        df = pd.read_csv(self.src)
+        answers = []
+        for index, row in df.iterrows():
+            template = Template(prompt)
+            substitution = dict(zip(df.columns,row))
+            logging.info("Substitution: %s", substitution)
+            substitute = template.substitute(substitution)
+            answer = ask_chatgpt(substitute, intro)
+            logging.info("'%s'->'%s'", substitute, answer)
+            answers.append(answer)
+        df["chatgpt"] = answers
+        df.to_csv(self.dst, index=False)
 
-            with open(self.src, 'r', newline='',encoding="utf-8") as csvfile:
-                reader = csv.reader(csvfile)
-                header = next(reader)
-                logging.info("Header: %s",header)
-                template = Template(prompt)
-
-                for row in reader:
-                    substitution = {}
-                    for i, col in enumerate(header):
-                        substitution[col] = row[i]
-
-                    logging.info("Substitution: %s",substitution)
-                    substitute = template.substitute(substitution)
-                    answer = ask_chatgpt(substitute, intro)
-                    logging.info("'%s'->'%s'",substitute,answer)
-
-                    dst_file.write(answer)
-                    dst_file.write("\n")
